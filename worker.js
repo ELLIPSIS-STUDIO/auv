@@ -122,7 +122,8 @@ async function handleRequest(request) {
                 const interval = setInterval(() => {
                   progress += 10;
                   if (progress > 100) progress = 100;
-                  progressBar.style.width = `${progress}%`;
+                  // 使用传统字符串拼接，避免模板字符串语法
+                  progressBar.style.width = progress + '%';
                 }, 300);
                 
                 // 发送请求
@@ -141,14 +142,14 @@ async function handleRequest(request) {
                 
                 const result = await response.json();
                 if (result && result.result && result.result.image) {
-                  imageDisplay.src = `data:image/png;base64,${result.result.image}`;
+                  imageDisplay.src = 'data:image/png;base64,' + result.result.image;
                   generatedImage.classList.remove('hidden');
                 } else {
                   throw new Error('无效的响应格式');
                 }
               } catch (error) {
                 console.error('生成失败:', error);
-                errorState.textContent = `生成失败: ${error.message}`;
+                errorState.textContent = '生成失败: ' + error.message;
                 errorState.classList.remove('hidden');
               } finally {
                 loadingState.classList.add('hidden');
